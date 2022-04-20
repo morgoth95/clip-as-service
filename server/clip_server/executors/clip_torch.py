@@ -37,7 +37,6 @@ class CLIPEncoder(Executor):
 
         self.summary_text = self.get_summary('text_preproc_second', 'Time to preprocess text')
         self.summary_image = self.get_summary('image_preproc_second', 'Time to preprocess image')
-        self.summary_encode = self.get_summary('encode_second', 'Time to encode')
     def get_summary(self, title, details):
         return (
             Summary(
@@ -75,30 +74,29 @@ class CLIPEncoder(Executor):
         _img_da = docs.find({'blob': {'$exists': True}})
         _txt_da = docs.find({'text': {'$exists': True}})
 
-        with self.summary_encode:
-            with torch.inference_mode():
-                # for image
-                if _img_da:
-                    for minibatch in _img_da.map_batch(
-                        self._preproc_image,
-                        batch_size=self._minibatch_size,
-                        pool=self._pool,
-                    ):
-                        minibatch.embeddings = (
-                            self._model.encode_image(minibatch.tensors).cpu().numpy()
-                        )
+        with torch.inference_mode():
+            # for image
+            if _img_da:
+                for minibatch in _img_da.map_batch(
+                    self._preproc_image,
+                    batch_size=self._minibatch_size,
+                    pool=self._pool,
+                ):
+                    minibatch.embeddings = (
+                        self._model.encode_image(minibatch.tensors).cpu().numpy()
+                    )
 
-                # for text
-                if _txt_da:
-                    for minibatch, _texts in _txt_da.map_batch(
-                        self._preproc_text,
-                        batch_size=self._minibatch_size,
-                        pool=self._pool,
-                    ):
-                        minibatch.embeddings = (
-                            self._model.encode_text(minibatch.tensors).cpu().numpy()
-                        )
-                        minibatch.texts = _texts
+            # for text
+            if _txt_da:
+                for minibatch, _texts in _txt_da.map_batch(
+                    self._preproc_text,
+                    batch_size=self._minibatch_size,
+                    pool=self._pool,
+                ):
+                    minibatch.embeddings = (
+                        self._model.encode_text(minibatch.tensors).cpu().numpy()
+                    )
+                    minibatch.texts = _texts
 
             # drop tensors
             docs.tensors = None
