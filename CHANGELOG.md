@@ -581,7 +581,7 @@
 
  - [[```8600286c```](https://github.com/jina-ai/clip-as-service/commit/8600286cf53755c127cf258af918b6bdf3e86691)] __-__ update readme (*Han Xiao*)
  - [[```5e1dd607```](https://github.com/jina-ai/clip-as-service/commit/5e1dd607e47a94265f48cbb2a70406c5057b86fa)] __-__ __version__: the next version will be 0.2.4 (*Jina Dev Bot*)
-
+ 
 <a name=release-note-0-3-1></a>
 ## Release Note (`0.3.1`)
 
@@ -912,4 +912,4 @@
  - [[```0da311e4```](https://github.com/jina-ai/clip-as-service/commit/0da311e4113b0afb60cb16779d86c48399c86f24)] __-__ __docs__: change http to https (*Han Xiao*)
  - [[```741ad796```](https://github.com/jina-ai/clip-as-service/commit/741ad796be93df808a634a41105f2860751afc2d)] __-__ __docs__: add playground (*Han Xiao*)
  - [[```a2b6d337```](https://github.com/jina-ai/clip-as-service/commit/a2b6d33738f3cea55e429db21691534c62c08320)] __-__ __version__: the next version will be 0.4.8 (*Jina Dev Bot*)
-
+ 

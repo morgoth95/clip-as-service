@@ -74,6 +74,8 @@ Open AI has released 9 models so far. `ViT-B/32` is used as default model in all
 | ViT-L/14 | ✅ |✅ | ✅| 768 |
 | ViT-L/14-336px | ✅ |✅ | ❌| 768 |
 
+python -m clip_server nebullvm_flow.yml
+```
 
 ## YAML config
 
@@ -239,6 +241,14 @@ There are also runtime-specific parameters listed below:
 | `device`  | `cuda` or `cpu`. Default is `None` means auto-detect.
 
 ````
+
+For nebullvm backend, you just need to set name and mini_batch size
+
+| Parameter | Description                                                                                                                    |
+|-----------|--------------------------------------------------------------------------------------------------------------------------------|
+| `name`    | Model weights, default is `ViT-B/32`. Support all OpenAI released pretrained models.                                           | | 
+| `minibatch_size` | The size of a minibatch for CPU preprocessing and GPU encoding, default 64. Reduce the size of it if you encounter OOM on GPU. |
+
 
 For example, to turn on JIT and force PyTorch running on CPU, one can do:
 
