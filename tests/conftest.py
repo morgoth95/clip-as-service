@@ -16,10 +16,12 @@ def port_generator():
     return random_port
 
 
-@pytest.fixture(scope='session', params=['onnx', 'torch'])
+@pytest.fixture(scope='session', params=['onnx', 'nebullvm', 'torch'])
 def make_flow(port_generator, request):
     if request.param == 'onnx':
         from clip_server.executors.clip_onnx import CLIPEncoder
+    elif request.param == 'nebullvm':
+        from clip_server.executors.clip_nebullvm import CLIPEncoder
     else:
         from clip_server.executors.clip_torch import CLIPEncoder
 
