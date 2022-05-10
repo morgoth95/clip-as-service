@@ -74,7 +74,7 @@ Open AI has released 9 models so far. `ViT-B/32` is used as default model in all
 | ViT-L/14 | ✅ |✅ | ✅| 768 |
 | ViT-L/14-336px | ✅ |✅ | ❌| 768 |
 
-python -m clip_server nebullvm_flow.yml
+python -m clip_server nebullvm-flow.yml
 ```
 
 ## YAML config
