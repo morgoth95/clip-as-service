@@ -42,6 +42,15 @@ pip install "clip_server[onnx]"
 python -m clip_server onnx-flow.yml
 ```
 
+### Start a Nebullvm-backed server
+
+ecently we added the support for another AI-accelerator backend: nebullvm.
+It can be used in a similar way to `onnxruntime`, running:
+```bash
+pip install "clip_server[nebullvm]"
+
+python -m clip_server nebullvm-flow.yml
+```
 
 ### Start a TensorRT-backed server
 
@@ -62,27 +71,25 @@ The procedure and UI of ONNX and TensorRT runtime would look the same as Pytorch
 
 Open AI has released 9 models so far. `ViT-B/32` is used as default model in all runtimes. Due to the limitation of some runtime, not every runtime supports all nine models. Please also note that different model give different size of output dimensions. This will affect your downstream applications. For example, switching the model from one to another make your embedding incomparable, which breaks the downstream applications. Here is a list of supported models of each runtime and its corresponding size:
 
-| Model | PyTorch |  ONNX | TensorRT |  Output dimension | 
-| --- |---------| ---- | --- |--- |
-| RN50 | ✅ |✅ | ✅| 1024 | 
-| RN101 | ✅ |✅ | ✅| 512 | 
-| RN50x4 | ✅ |✅ | ✅| 640 |
-| RN50x16 | ✅ |✅ | ❌| 768 |
-| RN50x64 | ✅ |✅ | ❌| 1024 |
-| ViT-B/32  | ✅ |✅ | ✅| 512 |
-| ViT-B/16 | ✅ |✅ | ✅| 512 |
-| ViT-L/14 | ✅ |✅ | ✅| 768 |
-| ViT-L/14-336px | ✅ |✅ | ❌| 768 |
+| Model | PyTorch |  ONNX | TensorRT | Nebullvm |  Output dimension | 
+| --- |---------| ---- | --- | --- |--- |
+| RN50 | ✅ |✅ | ✅| ✅|1024 | 
+| RN101 | ✅ |✅ | ✅| ✅| 512 | 
+| RN50x4 | ✅ |✅ | ✅| ✅| 640 |
+| RN50x16 | ✅ |✅ | ❌| ✅| 768 |
+| RN50x64 | ✅ |✅ | ❌| ✅| 1024 |
+| ViT-B/32  | ✅ |✅ | ✅| ✅| 512 |
+| ViT-B/16 | ✅ |✅ | ✅| ✅| 512 |
+| ViT-L/14 | ✅ |✅ | ✅| ✅| 768 |
+| ViT-L/14-336px | ✅ |✅ | ❌| ✅| 768 |
 
-python -m clip_server nebullvm-flow.yml
-```
 
 ## YAML config
 
 You may notice that there is a YAML file in our last ONNX example. All configurations are stored in this file. In fact, `python -m clip_server` does **not support** any other argument besides a YAML file. So it is the only source of the truth of your configs. 
 
 And to answer your doubt, `clip_server` has three built-in YAML configs as a part of the package resources. When you do `python -m clip_server` it loads the Pytorch config, and when you do `python -m clip_server onnx-flow.yml` it loads the ONNX config.
-In the same way, when you do `python -m clip_server tensorrt-flow.yml` it loads the TensorRT config.
+In the same way, when you do `python -m clip_server tensorrt-flow.yml` and `python -m clip_server nebullvm-flow.yml` it loads the TensorRT and Nebullvm config respectively.
 
 Let's look at these three built-in YAML configs:
 
@@ -120,6 +127,22 @@ executors:
 ```
 ````
 
+````{tab} nebullvm-flow.yml
+
+```yaml
+jtype: Flow
+version: '1'
+with:
+  port: 51000
+executors:
+  - name: clip_n
+    uses:
+      jtype: CLIPEncoder
+      metas:
+        py_modules:
+          - executors/clip_nebullvm.py
+```
+````
 
 ````{tab} tensorrt-flow.yml
 
