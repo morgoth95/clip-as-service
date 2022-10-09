@@ -56,7 +56,7 @@ setup(
             'onnx',
         ]
         + (['onnxruntime-gpu>=1.8.0'] if sys.platform != 'darwin' else []),
-        'nebullvm': ['nebullvm>=0.2.1'],
+        'nebullvm': ['nebullvm>=0.4.3'],
         'tensorrt': ['nvidia-tensorrt'],
     },
     classifiers=[
